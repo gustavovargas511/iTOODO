@@ -1,0 +1,7 @@
+/* Backgrounds */
+.gradient-bg {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    /* Purple to blue gradient */
+    min-height: 100vh;
+    /* Full height for the page */
+}
