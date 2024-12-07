@@ -1,6 +1,7 @@
 <?php
-// define('BASE_PATH', '/home/gustavo/Documents/apache_php_server/TODOit/');
 include(__DIR__ . '../../../includes/header.php');
+
+// LogoutController::handleLogout();
 
 // $query = "SELECT * FROM todo";
 $query = "select td.*
@@ -20,7 +21,7 @@ $userTodos = $stmt->fetchAll();
 
 ?>
 
-<nav class="navbar bg-body-tertiary d-flex justify-content-between px-2">
+<!-- <nav class="navbar bg-body-tertiary d-flex justify-content-between px-2">
     <div class="p-2">
         iTOODO
     </div>
@@ -30,10 +31,12 @@ $userTodos = $stmt->fetchAll();
         </div>
         <div class="d-grid gap-2 d-md-block">
             <button class="btn btn-primary" type="button">New task</button>
-            <button class="btn btn-danger" type="button">Log Out</button>
+            <form action="" method="post" style="display:inline;">
+                <button class="btn btn-danger" type="submit" name="logout">Log Out</button>
+            </form>
         </div>
     </div>
-</nav>
+</nav> -->
 
 <div class="container pt-5 flex-grow-1">
     <?php foreach ($userTodos as $todo) : ?>
@@ -49,7 +52,7 @@ $userTodos = $stmt->fetchAll();
                     </blockquote>
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-pink" type="button">Edit Task</button>
-                        <button class="btn btn-secondary" type="button">Complete</button>
+                        <button class="btn btn-secondary" type="button">Mark Complete</button>
                     </div>
                 </div>
             </div>

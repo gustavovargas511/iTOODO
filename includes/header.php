@@ -1,17 +1,9 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/config/database.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/src/controllers/LogoutController.php';
 
-session_start();
-
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    //echo '<h1> Welcome ' . $_SESSION['username'] . '</h1>';
-    // echo '<a href="logout.php">Logout</a>';
-}
-// else {
-//     echo '<h1>Welcome guest</h1>';
-//     // echo '<a href="/13_sessions.php">Login screen</a>';
-// }
+LogoutController::dashboardSessionHandler();
+LogoutController::handleLogout();
 
 ?>
 <!DOCTYPE html>
@@ -28,3 +20,19 @@ if (!isset($_SESSION['username'])) {
 </head>
 
 <body class="gradient-bg d-flex flex-column min-vh-100">
+    <nav class="navbar bg-body-tertiary d-flex justify-content-between px-2">
+        <div class="p-2">
+            iTOODO
+        </div>
+        <div class="d-flex">
+            <div class="pt-2 mx-2">
+                <p>Welcome back <?= $_SESSION['username'] ?></p>
+            </div>
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-primary" type="button">New task</button>
+                <form action="" method="post" style="display:inline;">
+                    <button class="btn btn-danger" type="submit" name="logout">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </nav>

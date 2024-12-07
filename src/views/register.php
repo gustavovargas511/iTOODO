@@ -1,3 +1,72 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/config/database.php';
+
+session_start();
+
+// Check if a session is active (i.e., the user is logged in)
+if (isset($_SESSION['username']) && $_SESSION['username'] !== null) {
+    // Destroy the session data
+    session_unset();  // Unset all session variables
+    session_destroy();  // Destroy the session
+
+    // Delete the session cookie by setting its expiration to a past date
+    if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time() - 3600, '/');  // Expire the cookie
+    }
+
+    // Redirect to the login page after logging out
+    // header('Location: login.php');
+    // exit();
+}
+
+$username = $email = $password = '';
+
+// if (!empty($_POST['username'])) {
+//     $username = $_POST['username'];
+//     echo '<script>alert("'. $username .'");</script>';
+// }
+// if (!empty($_POST['email'])) {
+//     echo '<script>alert("' . $_POST['email'] . '");</script>';
+// }
+// if (!empty($_POST['pswd'])) {
+//     echo '<script>alert("' . $_POST['pswd'] . '");</script>';
+// }
+
+// Correctly access POST data
+$username = htmlspecialchars($_POST['username'] ?? '');
+$email = htmlspecialchars($_POST['email'] ?? '');
+$password = htmlspecialchars($_POST['pswd'] ?? '');
+
+try {
+    // Only proceed if the username, email and password are set
+    if (!empty($username) && !empty($email) && !empty($password)) {
+
+        // Query to get the user
+        $query = "INSERT INTO user (username, email, pass) VALUES (:username, :email, :password)";
+        $stmt = $pdo->prepare($query);
+
+        // Bind parameters
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+
+        // Execute the query
+        // $stmt->execute();
+
+        if ($stmt->execute()) {
+            echo '<script>alert("User inserted successfuly!");</script>';
+            // $_SESSION['username'] = $username;
+            // header('Location: dashboard.php');
+        } else {
+            echo '<script>alert("Error trying to insert user, please try again.");</script>';
+        }
+    }
+} catch (PDOException $e) {
+    // Handle query error
+    echo "Error: " . htmlspecialchars($e->getMessage());
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,11 +93,11 @@
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
             </div>
             <div class="mb-3">
                 <label for="pswd" class="form-label">Password</label>
-                <input type="password" id="pswd" class="form-control" aria-describedby="passwordHelpBlock">
+                <input type="password" id="pswd" name="pswd" class="form-control" aria-describedby="passwordHelpBlock">
                 <div id="passwordHelpBlock" class="form-text">
                     Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                 </div>

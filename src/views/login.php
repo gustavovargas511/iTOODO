@@ -1,23 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/config/database.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/src/controllers/LogoutController.php';
 
-session_start();
-
-// Check if a session is active (i.e., the user is logged in)
-if (isset($_SESSION['username']) && $_SESSION['username'] !== null) {
-    // Destroy the session data
-    session_unset();  // Unset all session variables
-    session_destroy();  // Destroy the session
-
-    // Delete the session cookie by setting its expiration to a past date
-    if (isset($_COOKIE[session_name()])) {
-        setcookie(session_name(), '', time() - 3600, '/');  // Expire the cookie
-    }
-
-    // Redirect to the login page after logging out
-    header('Location: login.php');
-    exit();
-}
+LogoutController::logoutIfLogged();
 
 // Correctly access POST data
 $username = htmlspecialchars($_POST['username'] ?? '');
