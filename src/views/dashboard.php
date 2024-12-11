@@ -16,24 +16,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todoTitle'], $_POST['
     // Validate inputs
     if (!empty($todoTitle) && !empty($todoBody)) {
         $userid = $userController->getUserIdByUsername($_SESSION['username']);
-        $newTodo = new Todo();
-        $newTodo->setTitle($todoTitle);
-        $newTodo->setBody($todoBody);
-        $newTodo->setCompleted(0);
-        $newTodo->setCompletionDate(NULL);
-        $newTodo->setUserId($userid->getId());
+        $todo = new Todo();
+        $todo->setTitle($todoTitle);
+        $todo->setBody($todoBody);
+        $todo->setCompleted(0); // Defaults to incomplete
+        $todo->setCompletionDate(NULL);
+        $todo->setUserId($userid->getId());
 
-        if ($todoController->createTodo($newTodo) > 0) {
-            // Reset form inputs and $_POST data
-            $_POST['todoTitle'] = $_POST['todoBody'] = null; // Clear form fields
-            //unset($_POST); // Optional, clears all form data from memory
+        // Check if it's an update or new task creation
+        if (isset($_POST['todoId']) && !empty($_POST['todoId'])) {
+            // Update operation
+            $todoToUpdate = $todoController->getTodoById($_POST['todoId']); // Retrieve the existing task
+            $todoToUpdate->setTitle($todoTitle);
+            $todoToUpdate->setBody($todoBody);
+            $todoToUpdate->setCompleted(isset($_POST['completed']) ? 1 : 0); // Set completed if checked
+            $result = $todoController->updateTodo($todoToUpdate);
+
+            if (!$result) {
+                $error = "Failed to update the task.";
+            }
         } else {
-            $error = "Error creating the task. Please try again.";
+            // New task creation
+            $result = $todoController->createTodo($todo);
+            if ($result <= 0) {
+                $error = "Error creating the task. Please try again.";
+            }
         }
+
+        // Reset form inputs and $_POST data
+        $_POST['todoTitle'] = $_POST['todoBody'] = null; // Clear form fields
+        //unset($_POST); // Optional, clears all form data from memory
     } else {
         $error = "Both Title and Body are required.";
     }
 }
+
 
 // Get all user TODOs
 $userTodos = $todoController->getTodosByUsername($_SESSION['username']);
@@ -48,24 +65,32 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
     <?php foreach ($userTodos as $todo) : ?>
         <div class="card mb-2">
             <div class="card-header">
-                <?= $todo->getTitle() ?>
+                <?= htmlspecialchars($todo->getTitle()) ?>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <blockquote class="blockquote mb-0">
-                        <p><?= $todo->getBody() ?></p>
+                        <p><?= htmlspecialchars($todo->getBody()) ?></p>
                         <footer class="blockquote-footer">Added on <cite title="Source Title"><?= $todo->getCreatedAt() ?></cite></footer>
                     </blockquote>
                     <div class="d-grid gap-2 d-md-block">
-                        <button class="btn btn-pink" type="button">Edit Task</button>
-                        <button class="btn btn-secondary" type="button">Mark Complete</button>
+                        <!-- Include todo details in data-* attributes -->
+                        <button class="btn btn-primary edit-btn"
+                            data-id="<?= $todo->getId() ?>"
+                            data-title="<?= htmlspecialchars($todo->getTitle()) ?>"
+                            data-body="<?= htmlspecialchars($todo->getBody()) ?>"
+                            data-bs-toggle="modal"
+                            data-bs-target="#newTaskModal">
+                            Edit
+                        </button>
+                        <button class="btn btn-danger" type="button">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Repeat cards as needed -->
     <?php endforeach; ?>
 </div>
+
 
 <?php
 include(__DIR__ . '../../../includes/footer.php');

@@ -29,7 +29,7 @@ LogoutController::handleLogout();
                 <p>Welcome back <?= $_SESSION['username'] ?></p>
             </div>
             <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTaskModal" type="button">New task</button>
+                <button class="btn btn-success new-task-btn" data-bs-toggle="modal" data-bs-target="#newTaskModal" type="button">New task</button>
                 <form action="" method="post" style="display:inline;">
                     <button class="btn btn-danger" type="submit" name="logout">Log Out</button>
                 </form>

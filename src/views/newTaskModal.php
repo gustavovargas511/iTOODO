@@ -8,15 +8,26 @@
             </div>
             <div class="modal-body">
                 <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                    <div class="mb-3">
-                        <label for="todoTitle" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="todoTitle" name="todoTitle" placeholder="Enter to-do title" required>
+                    <input type="hidden" id="modalTaskId" name="todoId" value="">
+                    <div class="form-group mb-2" id="modalCompletedCheckbox">
+                        <div class="form-check">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Mark as completed.
+                            </label>
+                            <input class="form-check-input" type="checkbox" value="" name="completed" id="flexCheckDefault">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="todoBody" class="form-label">I need to:</label>
-                        <input type="text" class="form-control" id="todoBody" name="todoBody" placeholder="Enter what you need to do" required>
+                    <div class="form-group">
+                        <label for="modalTaskTitle">Title</label>
+                        <input type="text" id="modalTaskTitle" name="todoTitle" class="form-control" value="">
                     </div>
-                    <button type="submit" class="btn btn-success w-100">Create TO-DO</button>
+                    <div class="form-group">
+                        <label for="modalTaskBody">Body</label>
+                        <textarea id="modalTaskBody" name="todoBody" class="form-control"></textarea>
+                    </div>
+                    <div class="mt-2 d-flex">
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </div>
                 </form>
                 <?php if (!empty($errorMessage)) : ?>
                     <div class="alert alert-danger mt-2"><?= $errorMessage ?></div>
