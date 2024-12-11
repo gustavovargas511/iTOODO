@@ -18,11 +18,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="modalTaskTitle">Title</label>
+                        <label for="modalTaskTitle">Give your task a name</label>
                         <input type="text" id="modalTaskTitle" name="todoTitle" class="form-control" value="">
                     </div>
                     <div class="form-group">
-                        <label for="modalTaskBody">Body</label>
+                        <label for="modalTaskBody">What exactly you have to do?</label>
                         <textarea id="modalTaskBody" name="todoBody" class="form-control"></textarea>
                     </div>
                     <div class="mt-2 d-flex">
