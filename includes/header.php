@@ -20,7 +20,7 @@ LogoutController::handleLogout();
 </head>
 
 <body class="gradient-bg d-flex flex-column min-vh-100">
-    <nav class="navbar bg-body-tertiary d-flex justify-content-between px-2">
+    <nav class="sticky-top shadow navbar bg-body-tertiary d-flex justify-content-between px-2">
         <div class="p-2">
             iTOODO
         </div>
@@ -29,7 +29,7 @@ LogoutController::handleLogout();
                 <p>Welcome back <?= $_SESSION['username'] ?></p>
             </div>
             <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-primary" type="button">New task</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTaskModal" type="button">New task</button>
                 <form action="" method="post" style="display:inline;">
                     <button class="btn btn-danger" type="submit" name="logout">Log Out</button>
                 </form>

@@ -1,54 +1,60 @@
 <?php
 include(__DIR__ . '../../../includes/header.php');
+include(__DIR__ . '/../controllers/TodoController.php');
+include(__DIR__ . '/../controllers/UserController.php');
 
-// LogoutController::handleLogout();
+// Initialize controllers
+$todoController = new TodoController($pdo);
+$userController = new UserController($pdo);
 
-// $query = "SELECT * FROM todo";
-$query = "select td.*
-from todo td
-inner join user us
-on td.user_id = us.id
-where us.username = :username";
 
-$stmt = $pdo->prepare($query);
+// Handle new todo form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todoTitle'], $_POST['todoBody'])) {
+    $todoTitle = htmlspecialchars($_POST['todoTitle']);
+    $todoBody = htmlspecialchars($_POST['todoBody']);
 
-// Bind parameters
-$stmt->bindParam(':username', $_SESSION['username']);
+    // Validate inputs
+    if (!empty($todoTitle) && !empty($todoBody)) {
+        $userid = $userController->getUserIdByUsername($_SESSION['username']);
+        $newTodo = new Todo();
+        $newTodo->setTitle($todoTitle);
+        $newTodo->setBody($todoBody);
+        $newTodo->setCompleted(0);
+        $newTodo->setCompletionDate(NULL);
+        $newTodo->setUserId($userid->getId());
 
-$stmt->execute();
-// Fetch all rows
-$userTodos = $stmt->fetchAll();
+        if ($todoController->createTodo($newTodo) > 0) {
+            // Reset form inputs and $_POST data
+            $_POST['todoTitle'] = $_POST['todoBody'] = null; // Clear form fields
+            //unset($_POST); // Optional, clears all form data from memory
+        } else {
+            $error = "Error creating the task. Please try again.";
+        }
+    } else {
+        $error = "Both Title and Body are required.";
+    }
+}
+
+// Get all user TODOs
+$userTodos = $todoController->getTodosByUsername($_SESSION['username']);
 
 ?>
 
-<!-- <nav class="navbar bg-body-tertiary d-flex justify-content-between px-2">
-    <div class="p-2">
-        iTOODO
-    </div>
-    <div class="d-flex">
-        <div class="pt-2 mx-2">
-            <p>Welcome back <?= $_SESSION['username'] ?></p>
-        </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-primary" type="button">New task</button>
-            <form action="" method="post" style="display:inline;">
-                <button class="btn btn-danger" type="submit" name="logout">Log Out</button>
-            </form>
-        </div>
-    </div>
-</nav> -->
+<?php // modal for user inserting
+include(__DIR__ . '../../../src/views/newTaskModal.php');
+?>
 
 <div class="container pt-5 flex-grow-1">
     <?php foreach ($userTodos as $todo) : ?>
         <div class="card mb-2">
             <div class="card-header">
-                <?= $todo['title'] ?>
+                <?= $todo->getTitle() ?>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <blockquote class="blockquote mb-0">
-                        <p><?= $todo['body'] ?></p>
-                        <footer class="blockquote-footer">Added on <cite title="Source Title"><?= $todo['created_at'] ?></cite></footer>
+                        <p><?= $todo->getBody() ?></p>
+                        <footer class="blockquote-footer">Added on <cite title="Source Title"><?= $todo->getCreatedAt() ?></cite></footer>
                     </blockquote>
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-pink" type="button">Edit Task</button>

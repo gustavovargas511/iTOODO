@@ -17,3 +17,4 @@ try {
     die("Connection failed: " . $e->getMessage());
     // echo '<script>alert("Connection failed: ' . addslashes($e->getMessage()) . '");</script>';
 }
+?>
