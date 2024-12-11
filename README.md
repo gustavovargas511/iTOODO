@@ -1,21 +1,23 @@
-# TODOit
+#TODOit
 
-A simple task management application that allows users to sign in/log in, create, and manage their tasks.
+TODOit is a simple yet efficient task management application that enables users to sign in, create, read, update, and delete tasks.
 
-Build with Core PHP, MySQL, html, CSS/Bootstrap and Vanilla JS. 
+It is built using Core PHP, MySQL, HTML, CSS/Bootstrap, and Vanilla JS.
+
+The project will be periodically updated with refactoring and code reuse improvements.
 
 Feel free to use it as a template for your own projects!
 
-## Installation
+Installation
+Clone the repository:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/gustavovargas511/TODOit.git
+bash
+Copy code
+git clone https://github.com/gustavovargas511/TODOit.git
+Set up the database by running the CREATE SCHEMA itoodo.sql file.
 
-2. Create the data needed (MySQL) in file CREATE SCHEMA itoodo.sql
+Configure the environment variables by editing config_demo.php (rename it to config.php).
 
-3. Edit Env variables (config_demo.php, change name to config.php)
+Deploy the project on a server and test the functionality.
 
-4. Put the project into a server, and test.
-
-5. Enjoy and leave a star in the repository
+Enjoy the app and don’t forget to leave a star on the repository!
