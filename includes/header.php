@@ -1,12 +1,15 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/config/database.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/src/controllers/LogoutController.php';
+// include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/src/controllers/LogoutController.php';
+include(__DIR__ . '/sessionHandlers.php');
 
-LogoutController::dashboardSessionHandler();
-LogoutController::handleLogout();
+startSessionIfNeeded();
+handleLogout();
 
-?>
-<!DOCTYPE html>
+// LogoutController::dashboardSessionHandler();
+// LogoutController::handleLogout();
+
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>

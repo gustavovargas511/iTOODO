@@ -1,7 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/config/database.php';
+include(__DIR__ . '/../../includes/sessionHandlers.php');
 
-session_start();
+startSessionIfNeeded();
 
 // Check if a session is active (i.e., the user is logged in)
 if (isset($_SESSION['username']) && $_SESSION['username'] !== null) {

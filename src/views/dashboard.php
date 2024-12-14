@@ -8,7 +8,7 @@ $todoController = new TodoController($pdo);
 $userController = new UserController($pdo);
 
 
-// Handle new todo form submission
+// Handle new/edit todo form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todoTitle'], $_POST['todoBody'])) {
     $todoTitle = htmlspecialchars($_POST['todoTitle']);
     $todoBody = htmlspecialchars($_POST['todoBody']);
@@ -44,8 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todoTitle'], $_POST['
         }
 
         // Reset form inputs and $_POST data
-        $_POST['todoTitle'] = $_POST['todoBody'] = null; // Clear form fields
-        //unset($_POST); // Optional, clears all form data from memory
+        // $_POST['todoTitle'] = $_POST['todoBody'] = null; // Clear form fields
+        // unset($_POST); // Optional, clears all form data from memory
+        header("Location: " . $_SERVER['PHP_SELF']);
     } else {
         $error = "Both Title and Body are required.";
     }

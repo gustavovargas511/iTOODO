@@ -15,6 +15,5 @@ try {
 } catch (PDOException $e) {
     // Handle connection error
     die("Connection failed: " . $e->getMessage());
-    // echo '<script>alert("Connection failed: ' . addslashes($e->getMessage()) . '");</script>';
 }
 ?>

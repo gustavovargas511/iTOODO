@@ -1,8 +1,10 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/config/database.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/TODOit/src/controllers/LogoutController.php';
+include(__DIR__ . '/../../includes/sessionHandlers.php');
 
-LogoutController::logoutIfLogged();
+startSessionIfNeeded();
+logoutIfLogged();
+
 
 // Correctly access POST data
 $username = htmlspecialchars($_POST['username'] ?? '');

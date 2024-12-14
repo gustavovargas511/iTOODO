@@ -19,7 +19,7 @@ create table user(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-select * from user;
+-- select * from user;
 
 -- Todo ->
 --     id
@@ -55,10 +55,10 @@ INSERT INTO user (username, email, pass) VALUES
 ('sophia_hill', 'sophia@example.com', 'sophiapass111'),
 ('liam_walker', 'liam@example.com', 'liampassword123');
 
-INSERT INTO user (username, email, pass) VALUES
-('pete_zahut', 'petezahut@example.com', 'petezahut');
+--INSERT INTO user (username, email, pass) VALUES
+--('pete_zahut', 'petezahut@example.com', 'petezahut');
 
-select * from user;
+-- select * from user;
 
 INSERT INTO todo (title, body, completed, completion_date, user_id) VALUES
 -- Todos for User 1
@@ -111,17 +111,16 @@ INSERT INTO todo (title, body, completed, completion_date, user_id) VALUES
 ('Study PHP', 'Learn about Laravel framework for a new project.', true, '2024-12-01 22:00:00', 10),
 ('Call friend', 'Catch up with Daniel on a quick call.', false, NULL, 10);
 
-select * from todo;
+-- select * from todo;
+-- SELECT * -- 1 
+-- FROM user
+-- WHERE username = 'jane_smith' AND pass = 'securepass456' 
+-- LIMIT 1;
 
-SELECT * -- 1 
-FROM user
-WHERE username = 'jane_smith' AND pass = 'securepass456' 
-LIMIT 1;
+-- -- joins
 
--- joins
-
-select td.*
-from todo td
-inner join user us
-on td.user_id = us.id
-where us.username = "john_doe";
+-- select td.*
+-- from todo td
+-- inner join user us
+-- on td.user_id = us.id
+-- where us.username = "john_doe";
