@@ -14,24 +14,9 @@ if (isset($_SESSION['username']) && $_SESSION['username'] !== null) {
     if (isset($_COOKIE[session_name()])) {
         setcookie(session_name(), '', time() - 3600, '/');  // Expire the cookie
     }
-
-    // Redirect to the login page after logging out
-    // header('Location: login.php');
-    // exit();
 }
 
 $username = $email = $password = '';
-
-// if (!empty($_POST['username'])) {
-//     $username = $_POST['username'];
-//     echo '<script>alert("'. $username .'");</script>';
-// }
-// if (!empty($_POST['email'])) {
-//     echo '<script>alert("' . $_POST['email'] . '");</script>';
-// }
-// if (!empty($_POST['pswd'])) {
-//     echo '<script>alert("' . $_POST['pswd'] . '");</script>';
-// }
 
 // Correctly access POST data
 $username = htmlspecialchars($_POST['username'] ?? '');
@@ -83,30 +68,29 @@ try {
 <body class="gradient-bg vh-100 d-flex justify-content-center align-items-center">
 
     <!-- Container with custom width (50% width) -->
-    <div class="shadow p-3 mb-5 bg-body-tertiary rounded w-50">
-        <div class="mb-2 p-2 d-flex justify-content-center">
-            <p class="m-2">Please fill in the required info</p>
+    <div class="row shadow p-3 mb-5 bg-body-tertiary rounded w-50">
+        <div class="col-12 text-center">
+            <p>Please fill in the required fields</p>
         </div>
-        <form action="" method="post">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="myusername">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
-            </div>
-            <div class="mb-3">
-                <label for="pswd" class="form-label">Password</label>
-                <input type="password" id="pswd" name="pswd" class="form-control" aria-describedby="passwordHelpBlock">
-                <div id="passwordHelpBlock" class="form-text">
-                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+        <div class="col-12">
+            <form action="" method="post" class="row g-3">
+                <div class="col-12">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="myusername">
                 </div>
-            </div>
-            <div class="d-flex justify-content-center">
-                <input class="btn btn-primary mt-2" type="submit" value="Login">
-            </div>
-        </form>
+                <div class="col-lg-6 col-sm-12">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <label for="pswd" class="form-label">Password</label>
+                    <input type="password" id="pswd" name="pswd" class="form-control" aria-describedby="passwordHelpBlock">
+                </div>
+                <div class="col-12 text-center">
+                    <input class="btn btn-primary mt-2" type="submit" value="Register">
+                </div>
+            </form>
+        </div>
     </div>
 
 </body>

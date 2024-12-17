@@ -6,7 +6,29 @@ include(__DIR__ . '/../controllers/UserController.php');
 // Initialize controllers
 $todoController = new TodoController($pdo);
 $userController = new UserController($pdo);
+$error = null;
 
+//handle delete todo
+if ($_SERVER['REQUEST_METHOD']==='POST' 
+    && isset($_POST['action']) 
+    && $_POST['action']==='delete') {
+
+    if (isset($_POST['todoId']) 
+        && is_numeric($_POST['todoId'])) {
+        
+        $todoId = (int)$_POST['todoId'];
+
+        if ($todoController->deleteTodoById($todoId)) {
+            header("Location: " . $_SERVER['PHP_SELF']);
+            //exit;
+        } else {
+            $error = "Failed to delete the task. Please try again.";
+        }
+    } else {
+        $error = "Invalid task ID.";
+    }
+
+}
 
 // Handle new/edit todo form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['todoTitle'], $_POST['todoBody'])) {
@@ -84,7 +106,11 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
                             data-bs-target="#newTaskModal">
                             Edit
                         </button>
-                        <button class="btn btn-danger" type="button">Delete</button>
+                        <form method="POST" action="<?= $_SERVER['PHP_SELF'] ?>" style="display:inline;">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="todoId" value="<?= $todo->getId() ?>">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>

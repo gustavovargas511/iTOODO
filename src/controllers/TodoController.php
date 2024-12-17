@@ -74,9 +74,19 @@ class TodoController
     // Delete a Todo
     public function deleteTodoById($id)
     {
-        $sql = "DELETE FROM todo WHERE id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([':id' => $id]);
+        try {
+            $sql = "DELETE FROM todo WHERE id = :id";
+            $stmt = $this->pdo->prepare($sql);
+
+            if (!$stmt->execute([':id' => $id])) {
+                throw new Exception("Failed to delete the todo with ID: $id.");
+            }
+
+            return true;
+        } catch (Exception $e) {
+            // Re-throw the exception to the calling code
+            throw new Exception("Error occurred in deleteTodoById: " . $e->getMessage());
+        }
     }
 
     // Get all Todos for a specific user

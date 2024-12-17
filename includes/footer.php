@@ -8,8 +8,11 @@
         </a>
     </div>
 </footer>
-
+<?php
+ob_end_flush(); // Flush and send the output
+?>
 <script>
+    //edit and new to do form * pending to move to isolated js file
     document.addEventListener('DOMContentLoaded', () => {
         const editButtons = document.querySelectorAll('.edit-btn');
         const modalTitle = document.querySelector('.modal-title');
