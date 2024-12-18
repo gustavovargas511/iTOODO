@@ -100,6 +100,13 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
     </div>
 </div>
 <div class="container flex-grow-1">
+    <?php if(empty($userTodos)) : ?>
+        <div class="container text-center py-5">
+            <h2>
+                No tasks to show
+            </h2>
+        </div>
+    <?php else : ?>
     <?php foreach ($userTodos as $todo) : ?>
         <div class="card mb-2" todo-card-title="<?= htmlspecialchars($todo->getTitle()) ?>">
             <div class="card-header d-flex justify-content-between">
@@ -139,6 +146,7 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
             </div>
         </div>
     <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 
 

@@ -5,7 +5,6 @@ include(__DIR__ . '/../../includes/sessionHandlers.php');
 startSessionIfNeeded();
 logoutIfLogged();
 
-
 // Correctly access POST data
 $username = htmlspecialchars($_POST['username'] ?? '');
 $password = htmlspecialchars($_POST['password'] ?? '');
@@ -13,21 +12,29 @@ $password = htmlspecialchars($_POST['password'] ?? '');
 try {
     // Only proceed if the username and password are set
     if (!empty($username) && !empty($password)) {
-        // Query to get the user
-        $query = "SELECT 1 FROM user WHERE username = :username AND pass = :password LIMIT 1";
+        // Query to get the user and their hashed password
+        $query = "SELECT pass FROM user WHERE username = :username LIMIT 1";
         $stmt = $pdo->prepare($query);
 
         // Bind parameters
         $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
 
         // Execute the query
         $stmt->execute();
 
-        if ($stmt->fetch()) {
-            // echo '<script>alert("Login successful!");</script>';
-            $_SESSION['username'] = $username;
-            header('Location: dashboard.php');
+        // Fetch the result
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // Verify if the entered password matches the hashed password
+            if (password_verify($password, $user['pass'])) {
+                // Password is correct, start the session and redirect
+                $_SESSION['username'] = $username;
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                echo '<script>alert("Invalid username or password.");</script>';
+            }
         } else {
             echo '<script>alert("Invalid username or password.");</script>';
         }
@@ -37,6 +44,7 @@ try {
     echo "Error: " . htmlspecialchars($e->getMessage());
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -27,6 +27,7 @@ try {
     // Only proceed if the username, email and password are set
     if (!empty($username) && !empty($email) && !empty($password)) {
 
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         // Query to get the user
         $query = "INSERT INTO user (username, email, pass) VALUES (:username, :email, :password)";
         $stmt = $pdo->prepare($query);
@@ -34,7 +35,7 @@ try {
         // Bind parameters
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':password', $hashedPassword);
 
         // Execute the query
         // $stmt->execute();
