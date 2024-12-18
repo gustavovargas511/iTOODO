@@ -95,7 +95,7 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
                     <?= htmlspecialchars($todo->getTitle()) ?>
                 </div>
                 <div>
-                    <span class="badge <?= $todo->getCompleted() ? 'text-bg-success' : 'text-bg-warning' ?>">
+                    <span class="badge <?= $todo->getCompleted() ? 'text-bg-success' : 'text-bg-warning' ?> p-2">
                         <?= $todo->getCompleted() ? 'Completed' : 'Pending' ?>
                     </span>
                 </div>
