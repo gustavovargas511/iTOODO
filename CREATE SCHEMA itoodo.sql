@@ -124,3 +124,19 @@ INSERT INTO todo (title, body, completed, completion_date, user_id) VALUES
 -- inner join user us
 -- on td.user_id = us.id
 -- where us.username = "john_doe";
+
+-- trigger for completed
+DELIMITER $$
+
+CREATE TRIGGER update_completion_date
+BEFORE UPDATE ON todo
+FOR EACH ROW
+BEGIN
+    -- Check if the 'completed' field is being updated and if it's being set to true (1)
+    IF NEW.completed != OLD.completed THEN
+        -- Set 'completion_date' to the current timestamp when 'completed' is updated
+        SET NEW.completion_date = IF(NEW.completed = 1, NOW(), NULL);
+    END IF;
+END $$
+
+DELIMITER ;
