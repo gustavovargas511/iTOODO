@@ -40,9 +40,9 @@ try {
         // $stmt->execute();
 
         if ($stmt->execute()) {
-            echo '<script>alert("User inserted successfuly!");</script>';
+            // echo '<script>alert("User inserted successfuly!");</script>';
             // $_SESSION['username'] = $username;
-            // header('Location: dashboard.php');
+            header('Location: dashboard.php');
         } else {
             echo '<script>alert("Error trying to insert user, please try again.");</script>';
         }
@@ -87,7 +87,9 @@ try {
                     <input type="password" id="pswd" name="pswd" class="form-control" aria-describedby="passwordHelpBlock">
                 </div>
                 <div class="col-12 text-center">
-                    <input class="btn btn-primary mt-2" type="submit" value="Register">
+                    <div class="d-grid gap-2 d-lg-block">
+                        <input class="btn btn-primary mt-2" type="submit" value="Register">
+                    </div>
                 </div>
             </form>
         </div>

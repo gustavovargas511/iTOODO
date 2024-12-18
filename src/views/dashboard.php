@@ -9,13 +9,17 @@ $userController = new UserController($pdo);
 $error = null;
 
 //handle delete todo
-if ($_SERVER['REQUEST_METHOD']==='POST' 
-    && isset($_POST['action']) 
-    && $_POST['action']==='delete') {
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['action'])
+    && $_POST['action'] === 'delete'
+) {
 
-    if (isset($_POST['todoId']) 
-        && is_numeric($_POST['todoId'])) {
-        
+    if (
+        isset($_POST['todoId'])
+        && is_numeric($_POST['todoId'])
+    ) {
+
         $todoId = (int)$_POST['todoId'];
 
         if ($todoController->deleteTodoById($todoId)) {
@@ -27,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD']==='POST'
     } else {
         $error = "Invalid task ID.";
     }
-
 }
 
 // Handle new/edit todo form submission
@@ -87,8 +90,15 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
 <div class="container pt-5 flex-grow-1">
     <?php foreach ($userTodos as $todo) : ?>
         <div class="card mb-2">
-            <div class="card-header">
-                <?= htmlspecialchars($todo->getTitle()) ?>
+            <div class="card-header d-flex justify-content-between">
+                <div>
+                    <?= htmlspecialchars($todo->getTitle()) ?>
+                </div>
+                <div>
+                    <span class="badge <?= $todo->getCompleted() ? 'text-bg-success' : 'text-bg-warning' ?>">
+                        <?= $todo->getCompleted() ? 'Completed' : 'Pending' ?>
+                    </span>
+                </div>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -102,6 +112,7 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
                             data-id="<?= $todo->getId() ?>"
                             data-title="<?= htmlspecialchars($todo->getTitle()) ?>"
                             data-body="<?= htmlspecialchars($todo->getBody()) ?>"
+                            data-completed="<?=$todo->getCompleted()?>"
                             data-bs-toggle="modal"
                             data-bs-target="#newTaskModal">
                             Edit

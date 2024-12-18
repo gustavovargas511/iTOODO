@@ -20,7 +20,7 @@ ob_end_flush(); // Flush and send the output
         const todoTitleInput = document.querySelector('#modalTaskTitle');
         const todoBodyInput = document.querySelector('#modalTaskBody');
         const modalCompletedCheckbox = document.querySelector("#modalCompletedCheckbox");
-
+        const flexCheckDefault = document.querySelector("#flexCheckDefault");
         // Update modal for editing
         editButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -29,6 +29,10 @@ ob_end_flush(); // Flush and send the output
                 todoTitleInput.value = button.getAttribute('data-title');
                 todoBodyInput.value = button.getAttribute('data-body');
                 modalCompletedCheckbox.classList.remove('d-none');
+                const isCompleted = button.getAttribute('data-completed'); // Check if completed
+                // console.log(isCompleted);
+                flexCheckDefault.checked = isCompleted === '1'; // Set checkbox state
+
             });
         });
 
