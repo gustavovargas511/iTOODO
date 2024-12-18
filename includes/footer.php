@@ -47,6 +47,29 @@ ob_end_flush(); // Flush and send the output
 
         });
     });
+
+
+    /** Filter tasks script */
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchTodo');
+        const todoCards = document.querySelectorAll('.card')
+
+        // Event listener for search input
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase(); // Get search term and convert to lowercase
+
+            todoCards.forEach(card => {
+                const title = card.getAttribute('todo-card-title').toLowerCase(); // Get title of each todo card
+
+                // Check if title includes search term
+                if (title.includes(searchTerm)) {
+                    card.style.display = ''; // Show card
+                } else {
+                    card.style.display = 'none'; // Hide card
+                }
+            });
+        });
+    })
 </script>
 </body>
 

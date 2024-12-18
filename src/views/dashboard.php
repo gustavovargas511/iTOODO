@@ -87,9 +87,21 @@ $userTodos = $todoController->getTodosByUsername($_SESSION['username']);
 include(__DIR__ . '../../../src/views/newTaskModal.php');
 ?>
 
-<div class="container pt-5 flex-grow-1">
+<div class="container">
+    <div class="row my-3">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Search todo..." name="searchTodo" id="searchTodo">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container flex-grow-1">
     <?php foreach ($userTodos as $todo) : ?>
-        <div class="card mb-2">
+        <div class="card mb-2" todo-card-title="<?= htmlspecialchars($todo->getTitle()) ?>">
             <div class="card-header d-flex justify-content-between">
                 <div>
                     <?= htmlspecialchars($todo->getTitle()) ?>
@@ -112,7 +124,7 @@ include(__DIR__ . '../../../src/views/newTaskModal.php');
                             data-id="<?= $todo->getId() ?>"
                             data-title="<?= htmlspecialchars($todo->getTitle()) ?>"
                             data-body="<?= htmlspecialchars($todo->getBody()) ?>"
-                            data-completed="<?=$todo->getCompleted()?>"
+                            data-completed="<?= $todo->getCompleted() ?>"
                             data-bs-toggle="modal"
                             data-bs-target="#newTaskModal">
                             Edit
